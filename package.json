@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chrome-launcher": "^0.11.2",
     "ejs": "^2.6.2",
     "express": "^4.17.1"
   }
