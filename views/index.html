@@ -9,7 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="/js/coinstack-1.1.19.min.js"></script>
+<script type="text/javascript" src="./js/web3.min.js"></script>
+<script type="text/javascript" src="./js/ethereumjs-tx-1.3.3.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.js "></script>
 
 <!-- bootsrtap CSS -->
@@ -20,22 +21,18 @@
 <script>
 $(document).ready(function(){
   let DEBUG = 1;
-  let client = new CoinStack('c7dbfacbdf1510889b38c01b8440b1', '10e88e9904f29c98356fd2d12b26de', 'c3sp2.blocko.io', 'https');
-
-  if (DEBUG) {
-	console.log("client: ", client);
-    console.log('starting...');
-  }
+  const web3 = new Web3('https://ropsten.infura.io/v3/3c52917848e945229c0d33d632b10490');
+  let Buffer = ethereumjs.Buffer.Buffer;
+  let version = web3.version;
 
   $('#newAccount').on('click', function(){
-    let privateKey = CoinStack.ECKey.createKey();
-    if (DEBUG) console.log("privateKey : ", privateKey);
-
-    let account = CoinStack.ECKey.deriveAddress(privateKey);
-    if (DEBUG) console.log("account: ", account);
-			
-	$('#message').text(" account: " + account);
-	alert("Account 생성이 완료 되었습니다..!!!" + account );
+    let account = web3.eth.accounts.create();
+    if (DEBUG) console.log("privateKey : ", account.privateKey);'	   
+    if (DEBUG) console.log("account : ", account.address);
+	  
+    $('#fromaddress').val(account.address);
+    $('#message').text(" account: " + account.address);
+    lert("Account 생성이 완료 되었습니다..!!!" + account.address);
 	//$('#i_password').val(privateKey);
 	//
   })
