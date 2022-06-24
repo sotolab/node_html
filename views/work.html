@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Count numbers: <output id="result"></output></p>
+<button onclick="startWorker()">Start Worker</button> 
+<button onclick="stopWorker()">Stop Worker</button>
+
+<script>
+var w;
+
+function startWorker() {
+  if (typeof(Worker) !== "undefined") {  // 브라우저가 웹 워커를 지원하는지 확인
+    if (typeof(w) == "undefined") { //객체가 생성되어 있지 않은 경우
+      w = new Worker("js/test_worker.js"); // 워커 객체를 생성한다.
+    }
+    w.onmessage = function(event) {
+      document.getElementById("result").innerHTML = event.data;
+    };
+  } else { // 웹워커 지원을 하지 않는 경우
+    document.getElementById("result").innerHTML = "Sorry! No Web Worker support.";
+  }
+}
+
+function stopWorker() { 
+  w.terminate(); // 사용한 워커 객체는 terminate() 메소드를 이용해 종료한다.
+  w = undefined; // 재사용을 위해 객체를 비워 놓는다.
+}
+</script>
+
+</body>
+</html>
